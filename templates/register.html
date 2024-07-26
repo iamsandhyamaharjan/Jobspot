@@ -1,0 +1,80 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href='https://unpkg.com/boxicons@2.0.9/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="{% static 'staticfiles/css/register.css' %}">
+    <title>JobSpot | Registration</title>
+
+</head>
+
+
+<body>
+
+    <div class="container">
+        <form action="#" class="register" method="post" enctype="multipart/form-data"> {% csrf_token %}
+            <h1 class="titleh1">JobSpot | Register your account</h1>
+
+
+            {% for field in form %}
+
+            <div class="form-group">
+                {{ field.label_tag }}<br>
+
+                <div class="input-group">
+                    {{ field }}
+                    {% if field.help_text %}
+                    <small style="color: grey">{{ field.help_text }}</small>
+                    {% endif %}
+                    {% for error in field.errors %}
+                    <p style="color: red">{{ error }}</p>
+                    {% endfor %}
+                </div>
+            </div>
+
+            {% endfor %}
+
+            <div class="form-group" id="resume">
+                <label for="resume">Upload Your Resume:</label><br>
+
+                <div class="input-group">
+                    <input type="file" name="resume" placeholder="Upload Your Resume">
+
+
+                </div>
+            </div>
+
+
+            <div>
+                <button type="submit" name="submit" class="btn-submit">Register</button>
+            </div>
+
+            <p>I already have an account. <a href="{% url 'login' %}">Login</a></p>
+            <a href="{% url 'jobs:index' %}">Go home</a>
+        </form>
+    </div>
+
+</body>
+<script type="text/javascript">
+    const dropdown = document.getElementById("id_is_employer");
+    const targetDiv = document.getElementById("resume");
+
+    dropdown.addEventListener("change", function () {
+        // Get the selected option value
+        const selectedOption = dropdown.value;
+
+        // Check the selected value and show/hide the targetDiv accordingly
+        if (selectedOption === "False") {
+            targetDiv.style.display = "block"; // or targetDiv.style.visibility = 'visible';
+        } else {
+            targetDiv.style.display = "none"; // or targetDiv.style.visibility = 'hidden';
+        }
+    });
+</script>
+
+</html>

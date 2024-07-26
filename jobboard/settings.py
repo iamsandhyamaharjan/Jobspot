@@ -12,7 +12,8 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 
 from pathlib import Path
 # from decouple import config
-
+# print(decouple.__file__,"pathhhhhhhhhhhhhhh")
+# print(config)
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -22,10 +23,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = (
- 
-
-        "django-insecure-j$s+x2gd@fsg4!t^7)j15es%k5n@*aley11a=pkb*#-#9tng$*",
   
+        "e0c4a92b90a4a3c2b6e8e6c2b9f55a20c7e9b7c01e4d6c93f5c2d8ef0b1d4a2e",
+
 )
 
 # SECURITY WARNING: don't run with debug turned on in production!
@@ -88,16 +88,17 @@ WSGI_APPLICATION = "jobboard.wsgi.application"
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
-# DATABASES = {
-#     "default": {
-#         "ENGINE": "django.db.backends.postgresql_psycopg2",
-#         "NAME": config("DB_NAME"),
-#         "USER": config("DB_USER"),
-#         "PASSWORD": config("DB_PASSWORD"),
-#         "HOST": config("DB_HOST"),
-#         "PORT": config("DB_PORT"),
-#     }
-# }
+DATABASES = {
+    "default": {
+        "ENGINE": "django.db.backends.postgresql",
+    
+        "NAME": "portal",
+        "USER": "postgres",
+        "PASSWORD": "post",
+        "HOST": "localhost",
+        "PORT": "5432",
+    }
+}
 
 
 # Password validation
@@ -148,7 +149,7 @@ MEDIA_ROOT = BASE_DIR / "files/"
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
-# AUTH_USER_MODEL = "users.User"
+AUTH_USER_MODEL = "users.User"
 
 LOGIN_REDIRECT_URL = "jobs:index"
 
