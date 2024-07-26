@@ -18,7 +18,7 @@ from django.contrib import admin
 from django.urls import path,include
 from django.conf import settings
 from django.conf.urls.static import static
-# from django.contrib.auth.views import LogoutView
+from django.contrib.auth.views import LogoutView
 from users.views import(
     login_view,
     signup_view,
@@ -32,7 +32,7 @@ urlpatterns = [
     path('employer/', include("employer.urls", namespace="employer")),
     path('users/', include("users.urls", namespace="user")),
     path('login/',login_view, name='login'),
-    # path("logout/", LogoutView.as_view(), name="logout"),
+    path("logout/", LogoutView.as_view(), name="logout"),
     path("contact/", contactus, name="contact"),
     path('register/', signup_view, name='register'),
   
