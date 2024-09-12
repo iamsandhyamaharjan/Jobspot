@@ -1,0 +1,88 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block title %}
+<title>My Applicaitons</title>
+{% endblock title %}
+
+{% block content %}
+
+{% include 'navbar.html' %}
+
+{% if applications %}
+
+<section class="seekerprofile" style="background-color: #f5f5f7;">
+    <div class="container" style="height: 80vh;">
+        <div class="pt-3 pb-2 mb-3 border-bottom">
+            <h1 class="h5">My Applications</h1>
+        </div>
+        {% include 'flashmessage.html' %}
+        <div class="row g-4 row-cols-1 row-cols-lg-3">
+            {% for application in applications %}
+            {% if request.user == application.submitted_by %}
+            <div class="feature col" style="width: auto">
+
+                <div class="text-left ps-4 py-4 px-4" style="background-color: #edf0f3; border-radius: 10px">
+                    <p class="fw-normal">Resume: <a href="{{ application.resume.url }}"> View Application</a></p>
+                    <p class="fw-normal">Submitted For: {{ application.submitted_for }}</p>
+                    <p class="fw-normal">Status: {{ application.status }}</p>
+                    <p class="fw-normal">Submitted On: {{ application.submitted_on|date:"F d, Y" }}</p>
+                    <div class="mt-4" style="border-top: 0.1px solid #bfc3cb">
+                        <br>
+                        {% if application.status == "Pending" %}
+                        <p class="fw-normal">Your application is in pending.</p>
+                        {% elif application.status == "Accepted" %}
+                        <p class="fw-normal">Your application has been accepted.</p>
+
+                        <a href="{% url 'users:view_message' application.id %}">
+                            <button class="px-3" type="submit" value="submit"
+                                style="background-color: #B6C6FF; border-radius: 5px; border:none; height: 4vh; width:auto;"
+                                onmouseover="this.style.backgroundColor='#8ca3f5';"
+                                onmouseout="this.style.backgroundColor='#B6C6FF';"><i class="bi bi-eye me-2"></i>View
+                                Message</button>
+                        </a>
+                        {% elif application.status == "Rejected" %}
+                        <p class="fw-normal">Your application has been rejected.</p>
+
+                        <a href="{% url 'users:view_message' application.id %}">
+                            <button class="px-3" type="submit" value="submit"
+                                style="background-color: #B6C6FF; border-radius: 5px; border:none; height: 4vh; width:auto;"
+                                onmouseover="this.style.backgroundColor='#8ca3f5';"
+                                onmouseout="this.style.backgroundColor='#B6C6FF';"><i class="bi bi-eye me-2"></i>View
+                                Message</button>
+                        </a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+
+
+            {% endif %}
+            {% endfor %}
+
+
+
+        </div>
+    </div>
+
+</section>
+
+{% else %}
+<section class="seekerprofile" style="background-color: #f5f5f7; height: auto;">
+    <div class="container" style="height: 100vh;">
+        <div class="pt-3 pb-2 mb-3 border-bottom">
+            <h1 class="h5">My Applications</h1>
+        </div>
+        {% include 'flashmessage.html' %}
+        <p class="fw-normal">You have not applied for any jobs yet.</p>
+
+    </div>
+
+</section>
+
+{% endif %}
+
+{% include 'footer.html' %}
+
+{% endblock content %}

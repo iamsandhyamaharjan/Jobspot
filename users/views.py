@@ -9,7 +9,7 @@ from django.urls import reverse
 from django.contrib.auth.decorators import login_required, user_passes_test
 from users.forms import  SignUpForm,ProfileForm, LoginForm, ContactForm
 from .models import User
-# from jobs.models import Application, Message
+from jobs.models import Application, Message
 
 
 User = get_user_model()

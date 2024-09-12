@@ -1,0 +1,165 @@
+{% extends 'base.html' %}
+{% block title %}
+
+{% load static %}
+<title>Job for {{ jobs.title }}</title>
+{% endblock title %}
+
+<link rel="stylesheet" href="{% static 'staticfiles/css/style.css' %}">
+
+
+{% block content %}
+
+
+{% include 'navbar.html' %}
+<section class="morejobsearch" style="background-color: #f5f5f7">
+    <div class="container" id="morejobsearch">
+
+        <div class="row g-5">
+            <!-- ============================================================ left part section ================================================== -->
+            <div class="col-md-7 col-lg-8">
+
+                <h3 class="mb-3" style="text-align: left;">
+                    {% if jobs.logo %}
+                    <img class="card-img-left example-card-img-responsive" src="{{jobs.logo.url}}" width="200px"
+                        height="200px">
+                    {% else %}
+                    <img class="card-img-left example-card-img-responsive" src="{% static 'empty.jpg' %}" width="190px"
+                        height="200px" alt="" />
+
+                    {% endif %}
+
+                    {{jobs.title}}
+                </h3>
+                <div class="table-responsive">
+                    <table class="table table-sm" style="text-align: left;">
+                        <tbody>
+                            <tr>
+                                <td colspan="2" class="fw-bold" style="text-align: left; font-size: 24px;">
+                                    {{jobs.company_name}} </td>
+                            </tr>
+                            <tr>
+                                <th>Description </th>
+                                <td style="text-align: justify;"> {{jobs.description}} </td>
+                            </tr>
+
+                            <tr>
+                                <th>Website </th>
+                                <td style="text-align: justify;"><a href="{{job.company_website}}">
+                                        {{jobs.company_website}} </a> </td>
+                            </tr>
+                            <tr>
+                                <th>Location </th>
+                                <td style="text-align: justify;"> {{jobs.location}} </td>
+                            </tr>
+                            <tr>
+                                <th>Salary </th>
+                                <td style="text-align: justify;"> {{jobs.salary}} </td>
+                            </tr>
+
+                            <tr>
+                                <th>Job Type </th>
+                                <td style="text-align: justify;"> {{jobs.type|capfirst}} </td>
+                            </tr>
+                            <tr>
+                                <th>Catagory </th>
+                                <td style="text-align: justify;"> {{jobs.category}} </td>
+                            </tr>
+                            <tr>
+                                <th>Level </th>
+                                <td style="text-align: justify;"> {{jobs.level}} </td>
+                            </tr>
+                            <tr>
+                                <th>No of Openings</th>
+                                <td style="text-align: justify;"> {{jobs.no_of_openings}} </td>
+                            </tr>
+                            <tr>
+                                <th>Posted By </th>
+                                <td style="text-align: justify;"> {{jobs.posted_by.first_name}}
+                                    {{jobs.posted_by.last_name}} </td>
+                            </tr>
+                            <tr>
+                                <th>Posted On </th>
+                                <td style="text-align: justify;"> {{jobs.created_at}} </td>
+                            </tr>
+
+                            <tr>
+                                <th>Valid Till </th>
+                                <td style="text-align: justify;"> {{jobs.application_valid}} </td>
+                            </tr>
+                            {% if request.user.is_authenticated %}
+                            <tr>
+                                {% if not request.user.is_employer %}
+                                <th>Action</th>
+                                {% if applications %}
+                                <td style="text-align: justify;"> You have already applied for this job. </td>
+
+                                {% else %}
+                                <td style="text-align: justify;">
+                                    <form action="{% url 'jobs:apply_job' jobs.id %}" method="post"> {% csrf_token %}
+                                        <button class="btn btn-secondary btn-sm"><i class="bi bi-link-45deg"></i>
+                                            Apply </button>
+                                    </form>
+                                </td>
+                                {% endif %}
+                                {% endif %}
+
+                            </tr>
+                            {% endif %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- ============================================================ right part section ================================================== -->
+
+            {% include 'recommend.html' %}
+        </div>
+    </div>
+
+    </div>
+
+</section>
+
+<!-- ========================================= footer section ================================================== -->
+{% include 'footer.html' %}
+
+
+{%endblock content%}
+
+{% block script %}
+{{block.super }}
+<script>
+    document.getElementById('apply-job-link').addEventListener('click', function (event) {
+        event.preventDefault(); // Prevent the default link behavior (redirect)
+
+        // Create a hidden form to perform the POST request
+        var form = document.createElement('form');
+        form.method = 'POST';
+        form.action = this.getAttribute('href'); // Get the URL from the link's href attribute
+
+        // Add a CSRF token if your site requires it (Django CSRF protection)
+        var csrfToken = document.getElementsByName('csrfmiddlewaretoken')[0].value;
+        var csrfInput = document.createElement('input');
+        csrfInput.type = 'hidden';
+        csrfInput.name = 'csrfmiddlewaretoken';
+        csrfInput.value = csrfToken;
+        form.appendChild(csrfInput);
+
+        // Add any other data you want to send as POST parameters (if needed)
+        // For example:
+        var job_id = this.getAttribute('data-job-id');
+        var jobIdInput = document.createElement('input');
+        jobIdInput.name = '{{request.user.first_name}}';
+        jobIdInput.email = '{{request.user.email}}';
+        jobIdInput.submitted_for_id = '{{jobs.id}}';
+        jobIdInput.submitted_by_id = '{{request.user.id}}';
+        form.appendChild(jobIdInput);
+
+        // Add the form to the document and submit it
+        document.body.appendChild(form);
+        form.submit();
+    });
+</script>
+
+{% endblock script %}
