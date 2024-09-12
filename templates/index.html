@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block title %}
-<title>JobSpot</title>
+<title>JobHub</title>
 {% endblock title %}
 
 {% block content %}
@@ -17,5 +17,10 @@
   </div>
 </section>
 
+
+
+{% include 'recentjobs.html' %}
+
+{% include 'footer.html' %}
 
 {% endblock %}
