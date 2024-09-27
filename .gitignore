@@ -27,7 +27,7 @@ local_settings.py
 db.sqlite3
 
 # Static files
-staticfiles/
+
 media/
 
 # Django migrations
