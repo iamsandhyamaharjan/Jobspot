@@ -13,15 +13,16 @@
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
           <li class="nav-item mx-3">
-            <a class="nav-link active" aria-current="page" href="{% url 'jobs:index' %}">Home</a>
+            <a class="nav-link {% if request.resolver_match.url_name == 'index' %} active {% endif %}" aria-current="page" href="{% url 'jobs:index' %}">Home</a>
           </li>
           <li class="nav-item mx-3">
-            <a class="nav-link" href="{% url 'jobs:job_list' %}">Jobs</a>
+            <a class="nav-link {% if request.resolver_match.url_name == 'job_list' %} active {% endif %}" href="{% url 'jobs:job_list' %}">Jobs</a>
           </li>
           <li class="nav-item mx-3">
-            <a class="nav-link" href="{% url 'contact' %}">Contact Us</a>
+            <a class="nav-link {% if request.resolver_match.url_name == 'contact' %} active {% endif %}" href="{% url 'contact' %}">Contact Us</a>
           </li>
         </ul>
+        
         <div class="d-flex">
           <!-- ========================================after login======================================== -->
           {% if request.user.is_authenticated %}
@@ -46,7 +47,7 @@
                     <button type="submit" class="dropdown-item"
                       style="background:none; border:none; padding:0; color:inherit; text-align:left;"
                       onmouseover="this.style.color='#007BFF';" onmouseout="this.style.color='#000';">
-                      Log Out
+                      &nbsp;&nbsp;&nbsp;&nbsp;Log Out
                     </button>
                   </form>
                 </li>

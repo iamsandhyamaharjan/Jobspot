@@ -20,10 +20,14 @@ def job_similar(job, top_n=5):
         category = job.category
         level = job.level
         type = job.type
+        title =job.title
+        
         
 
         # jobs = models.job.objects.exclude(pk=job.pk, category=category)
-        jobs = Job.objects.filter(Q(category__contains = category) | Q(level__contains = level) | Q(type__contains = type) ).exclude(pk=job.pk)
+        # jobs = Job.objects.filter(Q(category__contains = category) | Q(level__contains = level) | Q(type__contains = type) ).exclude(pk=job.pk)
+        jobs = Job.objects.filter(Q(title__contains = title) | Q(type__contains = type) ).exclude(pk=job.pk)
+
         texts = [
             job.title + " " + job.description + " " + job.level
             for job in jobs
